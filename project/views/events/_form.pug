@@ -32,6 +32,16 @@ label(for="type") Event Type & Category
         <option value="screening">Screening</option>
     </select>
 </div>
+.form-group
+label(for="fee") Fee
+<div class="fee">
+    <select class="form-control mr-sm-2" role="listbox" value=event.content>
+        <option value="free">This event is free</option>
+        <option value="fee charged">This event has fee</option>
+              label(for="fee") How much?
+              input.form-control(type="text", name="content", placeholder="How much", value=event.content)
+    </select>
+</div>
 
   label(for="event") Details
   textarea.form-control(name="content", rows="5")= event.content
