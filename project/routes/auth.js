@@ -12,9 +12,6 @@ module.exports = (app, passport) => {
   app.get('/auth/facebook',
     passport.authenticate('facebook', { scope : 'email' })
   );
-  app.get('/auth/kakaotalk',
-  passport.authenticate('kakaotalk', { scope : 'email' })
-);
 
   app.get('/auth/facebook/callback',
     passport.authenticate('facebook', {
@@ -25,15 +22,6 @@ module.exports = (app, passport) => {
       res.redirect('/events');
     }
   );
-  app.get('/auth/kakaotalk/callback',
-  passport.authenticate('kakaotalk', {
-    failureRedirect : '/signin',
-    failureFlash : true // allow flash messages
-  }), (req, res, next) => {
-    req.flash('success', 'Welcome!');
-    res.redirect('/events');
-  }
-);
 
   app.get('/signout', (req, res) => {
     req.logout();
