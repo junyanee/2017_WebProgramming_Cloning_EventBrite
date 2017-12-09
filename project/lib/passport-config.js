@@ -29,8 +29,8 @@ module.exports = function(passport) {
 
   passport.use(new FacebookStrategy({
     // 이 부분을 여러분 Facebook App의 정보로 수정해야 합니다.
-    clientID : '185081248729582',
-    clientSecret : 'f02d8be90007cf67bd16495033e1b95a',
+    clientID : '2007205676234504',
+    clientSecret : 'b64bf8610fe21c524d514d6c2c81d1dc',
     callbackURL : 'http://localhost:3000/auth/facebook/callback',
     profileFields : ['email', 'name', 'picture']
   }, async (token, refreshToken, profile, done) => {

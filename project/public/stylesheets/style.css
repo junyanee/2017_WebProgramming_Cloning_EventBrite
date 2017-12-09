@@ -90,7 +90,9 @@ h1 {
   margin-top: 1em;
   margin-bottom: 1em;
   margin-left: 1em;
-  margin-right: 1em; }
+  margin-right: 1em;
+  max-width: 20rem;
+  display: inline-block; }
 
 #cardlist {
   margin-bottom: 1em; }

@@ -1,5 +1,5 @@
 const express = require('express');
-const event = require('../models/event');
+const Event = require('../models/event');
 const Answer = require('../models/answer');
 const catchErrors = require('../lib/async-error');
 
@@ -28,7 +28,7 @@ router.get('/', catchErrors(async (req, res, next) => {
       {content: {'$regex': term, '$options': 'i'}}
     ]};
   }
-  const events = await event.paginate(query, {
+  const events = await Event.paginate(query, {
     sort: {createdAt: -1},
     populate: 'author',
     page: page, limit: limit
@@ -41,12 +41,12 @@ router.get('/new', needAuth, (req, res, next) => {
 });
 
 router.get('/:id/edit', needAuth, catchErrors(async (req, res, next) => {
-  const event = await event.findById(req.params.id);
+  const event = await Event.findById(req.params.id);
   res.render('events/edit', {event: event});
 }));
 
 router.get('/:id', catchErrors(async (req, res, next) => {
-  const event = await event.findById(req.params.id).populate('author');
+  const event = await Event.findById(req.params.id).populate('author');
   const answers = await Answer.find({event: event.id}).populate('author');
   event.numReads++;    // TODO: 동일한 사람이 본 경우에 Read가 증가하지 않도록???
 
@@ -55,7 +55,7 @@ router.get('/:id', catchErrors(async (req, res, next) => {
 }));
 
 router.put('/:id', catchErrors(async (req, res, next) => {
-  const event = await event.findById(req.params.id);
+  const event = await Event.findById(req.params.id);
 
   if (!event) {
     req.flash('danger', 'Not exist event');
@@ -71,14 +71,14 @@ router.put('/:id', catchErrors(async (req, res, next) => {
 }));
 
 router.delete('/:id', needAuth, catchErrors(async (req, res, next) => {
-  await event.findOneAndRemove({_id: req.params.id});
+  await Event.findOneAndRemove({_id: req.params.id});
   req.flash('success', 'Successfully deleted');
   res.redirect('/events');
 }));
 
 router.post('/', needAuth, catchErrors(async (req, res, next) => {
   const user = req.user;
-  var event = new event({
+  var event = new Event({
     title: req.body.title,
     author: user._id,
     content: req.body.content,
@@ -91,7 +91,7 @@ router.post('/', needAuth, catchErrors(async (req, res, next) => {
 
 router.post('/:id/answers', needAuth, catchErrors(async (req, res, next) => {
   const user = req.user;
-  const event = await event.findById(req.params.id);
+  const event = await Event.findById(req.params.id);
 
   if (!event) {
     req.flash('danger', 'Not exist event');
